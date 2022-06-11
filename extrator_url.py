@@ -1,9 +1,8 @@
+import re
 class ExtratorURL:
     def __init__(self,url_teste):
         self.url = self.sanitiza_url(url_teste)
         self.valida_url()
-        self.valida_url_base()
-
 
     def sanitiza_url(self,url):
         if type(url) == str:
@@ -14,16 +13,17 @@ class ExtratorURL:
     def valida_url(self):
         if not self.url:
             raise ValueError("A URL está vazia")
+
+        busca = re.compile('(http(s)?://)?(www.)?bytebank.com(.br)?/cambio')
+        match = busca.match(self.url)
+
+        if not match:
+            raise ValueError('A URL não é válida')
     
     def get_url_base(self):
         indice_interrogacao = self.url.find('?')
         url_base = self.url[:indice_interrogacao]
         return url_base
-
-    def valida_url_base(self):
-        url_base = self.get_url_base()
-        if not url_base.endswith("cambio") or not url_base.startswith("https") :
-            raise ValueError("A URL não está correta")
         
     def get_url_parametros(self):
         indice_interrogacao = self.url.find('?')
@@ -45,3 +45,25 @@ extrator_url = ExtratorURL("https://bytebank.com/cambio?quantidade=100&moedaOrig
 valor_quantidade = extrator_url.get_valor_parametro("quantidade")
 print(valor_quantidade)
 
+""" 
+Em valida_url usei expressoes regulares para verificar se o link estava de uma forma valida, outro exemplo
+de uso de expressoes regulares é a verificação e extração de um CEP em um texto. Como no exemplo a seguir:
+
+import re
+
+endereco = "Rua da Flores 72, apartamento 1002, Laranjeiras, Rio de Janeiro, RJ, 23440120"
+padrao   = re.compile("[0123456789]{5}[-]?[123456789]{3})
+busca    = padrao.search(endereco)
+
+if busca:
+    cep = busca.group()
+    print(cep)
+
+Na linha 55 poderiamos substituir [0123456789] por [0-9], 
+{5} pode ser substituido por [0-9] escrito 5 vezes
+e ? por {0,1}.
+
+Além disso, padrao.search(endereco) retorna um booleano, 
+que é True caso encontre o padrão especificado em re.compile.
+Para extrair o cep da string, usamos o comando .group() na linha 59.
+"""
