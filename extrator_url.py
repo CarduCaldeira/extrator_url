@@ -39,11 +39,26 @@ class ExtratorURL:
         else:
             return  self.get_url_parametros()[indice_valor:indice_e_comercial]
 
+    def __len__(self):
+        return len(self.url)
+
+    def __str__(self):
+        return "O link é: "+ self.url +"\n" + "A base do Link é: " + self.get_url_base() +"\n" +"Os parametros do link são: "+  self.get_url_parametros()
+
+    def __eq__(self,objeto):
+        return self.url == objeto.url
+        
 
 #extrator_url = ExtratorURL(None)
 extrator_url = ExtratorURL("https://bytebank.com/cambio?quantidade=100&moedaOrigem=real&moedaDestino=dolar")
+extrator_url2 = ExtratorURL("https://bytebank.com/cambio?quantidade=100&moedaOrigem=real&moedaDestino=dolar")
+
 valor_quantidade = extrator_url.get_valor_parametro("quantidade")
 print(valor_quantidade)
+print(len(extrator_url))
+print(extrator_url)
+if extrator_url == extrator_url2:
+    print("É igual")
 
 """ 
 Em valida_url usei expressoes regulares para verificar se o link estava de uma forma valida, outro exemplo
@@ -59,11 +74,11 @@ if busca:
     cep = busca.group()
     print(cep)
 
-Na linha 55 poderiamos substituir [0123456789] por [0-9], 
+Na linha 70 poderiamos substituir [0123456789] por [0-9], 
 {5} pode ser substituido por [0-9] escrito 5 vezes
 e ? por {0,1}.
 
 Além disso, padrao.search(endereco) retorna um booleano, 
 que é True caso encontre o padrão especificado em re.compile.
-Para extrair o cep da string, usamos o comando .group() na linha 59.
+Para extrair o cep da string, usamos o comando .group() na linha 74.
 """
