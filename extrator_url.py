@@ -39,6 +39,16 @@ class ExtratorURL:
         else:
             return  self.get_url_parametros()[indice_valor:indice_e_comercial]
 
+    def conversao_de_moeda(self):
+        moeda_origem = self.get_valor_parametro("moedaOrigem")
+        valor = self.get_valor_parametro("quantidade")
+        if moeda_origem == 'real':
+             total_dolar = float(valor)/5.50
+             print(f"O valor convertido para dolares é: {total_dolar}")
+        else:
+             total_reais = float(valor)*5.50
+             print(f"O valor convertido para reais é: {total_reais}")
+
     def __len__(self):
         return len(self.url)
 
@@ -50,15 +60,16 @@ class ExtratorURL:
         
 
 #extrator_url = ExtratorURL(None)
-extrator_url = ExtratorURL("https://bytebank.com/cambio?quantidade=100&moedaOrigem=real&moedaDestino=dolar")
+extrator_url = ExtratorURL("https://bytebank.com/cambio?quantidade=100&moedaOrigem=dolar&moedaDestino=real")
 extrator_url2 = ExtratorURL("https://bytebank.com/cambio?quantidade=100&moedaOrigem=real&moedaDestino=dolar")
 
 valor_quantidade = extrator_url.get_valor_parametro("quantidade")
 print(valor_quantidade)
 print(len(extrator_url))
 print(extrator_url)
-if extrator_url == extrator_url2:
-    print("É igual")
+
+extrator_url.conversao_de_moeda()
+
 
 """ 
 Em valida_url usei expressoes regulares para verificar se o link estava de uma forma valida, outro exemplo
