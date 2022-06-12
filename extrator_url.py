@@ -40,13 +40,14 @@ class ExtratorURL:
             return  self.get_url_parametros()[indice_valor:indice_e_comercial]
 
     def conversao_de_moeda(self):
+        valor_dolar = 5.5
         moeda_origem = self.get_valor_parametro("moedaOrigem")
         valor = self.get_valor_parametro("quantidade")
         if moeda_origem == 'real':
-             total_dolar = float(valor)/5.50
+             total_dolar = int(valor)/valor_dolar
              print(f"O valor convertido para dolares é: {total_dolar}")
         else:
-             total_reais = float(valor)*5.50
+             total_reais = int(valor)*valor_dolar
              print(f"O valor convertido para reais é: {total_reais}")
 
     def __len__(self):
@@ -68,7 +69,7 @@ print(valor_quantidade)
 print(len(extrator_url))
 print(extrator_url)
 
-extrator_url.conversao_de_moeda()
+extrator_url2.conversao_de_moeda()
 
 
 """ 
